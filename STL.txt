@@ -1,0 +1,483 @@
+#STL(STANDARD TEMPLATE LIBRARY)
+1)PAIR
+pair<data type,data type> p;
+cout<<p.first;//prnts 1st data type var
+
+#to put value in pair-
+p={2,"abc"};
+or
+p=make_pair(2,"abc");
+
+to copy a pair to anotehr pair--
+pair<3,"abc">p1=p2; //p1 is copied to p2;
+cout<<p2 //prnts same as p1
+
+but if we do-
+p2.first=4;
+cout<<p2; //it still prnts p1, value of int is still 3 not 4, this occurs
+as we copied the p1 by value and not by reference
+to copy with ref.
+pair<3,"abc">&p1=p2;
+now doing the above will change 3 to 4
+
+#to declare a pair array-
+pair<int,int>p[4];
+for(i=0;i<4;i++)
+{
+cout<<p[i].first<<" "<<p[i].second;
+}
+
+#to swap in the pair array-
+just do swap(p[1],p[2]);
+-----------------------------------
+2)VECTORS - CONTINOUS BLOCKS OF MEMORY WITH DYNAMIC SIZE(SIZE IS NOT INITI
+IALIZED).
+vector<int>v;//initilally the vector is empty.
+to insert in v-
+v.push_back(2);//the value gets added at the last
+---
+vector<int>v[3];
+for(i=0;i<v.size();i++)
+{
+cout<<v[i];
+}
+op=0 0 0
+if we do -
+v.push_back(5);
+and print the vector-
+op= 0 0 0 5
+5 added at the last and the size of the vector increased
+---
+v.pop_back();//removes the last element of the vector
+---
+to copy vectors-
+vector<int>v1=v2;//**T.C=O(N)**
+if we do v1.push_back(5);
+and prnt v2,then it wont have 5 at last but if we do like this-
+vector<int>&v1=v2;//then it will happen
+---
+to pass a vector in the fun,then pass it by ref. as when passed by
+value ,a copy of the vector is given in to the fun and altering it
+in the fun wont alter the vector that we have passed,but this thing 
+is solved in the pass by ref.
+
+TO DECLARE A PAIR VECTOR-
+vector<pair<int,string>>v;
+void solve()
+{
+   
+ vector<pair<int,int>>v={{1,2},{3,4},{5,6}};
+ int i;
+ 
+  for(i=0;i<v.size();i++)
+ {
+     cout<<v[i].first<<" "<<v[i].second<<"  ";
+     
+ }
+ }
+----------
+to take vector pair as input-
+ vector<pair<int,int>>v;
+ int i,n;
+ cin>>n;
+ 
+  for(i=0;i<n;i++)
+ {
+    int x,y;
+    cin>>x>>y;
+    v.push_back({x,y});
+     
+ }
+-------------------------------
+nested vector-
+void prntvec(vector<int>&v)
+{
+    cout<<"size:"<<v.size()<<endl;
+    for(int i=0;i<v.size();i++)
+    {
+        cout<<v[i]<<endl;
+    }
+    
+}
+
+void solve()
+{
+   
+vector<vector<int>>v;
+int n;
+cin>>n;
+int i,j;
+for(i=0;i<n;i++)
+{
+    vector<int>temp;
+    for(j=0;j<n;j++)
+    {
+        int x;
+        cin>>x;
+        temp.push_back(x);
+    }
+    v.push_back(temp);
+}
+for(i=0;i<v.size();i++)
+{
+    prntvec(v[i]);
+}
+ }
+------------------------------------------------------------
+#ITERATORS-
+SYNTAX-
+declare a vector or any container-
+vector<int>v={1,2,3,4};
+vector<int>::iterator it=v.begin();
+ to itrate-
+for(it=v.begin();it!=v.end();it++)
+{
+cout<<*(it)<<" "; 
+}
+---------------------------
+********** cout<<s.end() gives (end +1) value,and since (end+1) does not
+ exist hence it will give segmentation fault,therefor use
+ cout<<(--s.end());
+-----------------------------------------------------------------------
+difference between it++ and it+1-
+it++ ->here it goes to the next iterator.
+it+1->here it goes to the next location.
+
+since,vector is contigous blocks of memory,therefore we can use it+1
+as well as it++,BUT in other containers like map,set etc,we cant use 
+it+1 as they are not contigous adn it+1 wont point to yhe next element
+rather it may point some other location and compiler will throw segeme-
+ntation error.
+------------------------------------------------------------
+for vector pair-
+ vector<pair<int,int>>v={{1,2},{3,4},{5,6}};
+ vector<pair<int,int>>::iterator it=v.begin();
+ for(it=v.begin();it!=v.end();it++)
+ {
+     cout<<(*it).first<<" "<<(*it).second<<endl;
+ }
+ ---------------------
+AUTO AND RANGE-
+auto-
+it sets itself as the data type of what value it is assined.
+ex-
+auto=2;
+auto will assign itself as int,similarly for pair,vectors etc.
+it replaces the code of writing the syntax of the iterartor .
+-------
+for vector-
+vector<int>v={1,2,3,4};
+for(auto &it:v)
+{
+    cout<<it<<" "; 
+    
+}
+------------
+for vector pair-
+vector<pair<int,int>>v={{1,2},{3,4},{5,6}};
+for(auto &it:v)
+{
+    cout<<it.first<<" "<<it.second<<" "; 
+
+   }
+----------------------------------------------------
+#MAPS-
+int main() {
+  //maps (ordered)
+  //every element of map is a pair(key and value)
+  //keys are stored in sorted order
+  //all keys are distinct
+  //not contigous in nature
+  //cant do i+1,but can do i++
+  map<int,string>m;
+  m[1]="abc";//o(logn),just writing it
+  m[5]="cdc";
+  m[3]="ecd";
+  m.insert({4,"afg"});
+m[7];//even writing this ,t.c=o(logn) and it assigns a empty string
+ m.erase(3);//takes key or iterator as input
+  for(auto &it:m)
+  {
+      cout<<it.first<<" "<<it.second<<endl;
+  }
+ auto it=m.find(3);//returns iterator
+  cout<<it<<endl;//if 3 isnt there,it returns m.end;
+    return 0;
+}
+----------------------------------------
+insertion in map depends on the key,as if we put a very large string
+then i takes some time to get to its place in the map(as string comp-
+arision occurs),hence the t.c of the insertion is
+ o(length of string *logn)
+----------------------------------
+UNORDERED MAP-
+ unordered_map<string,int>m;
+  //uses inbuilt hash tables
+  //unordered keys
+  //t.c=o(1),both for insertion and accessing
+  //faster than map
+  //cant use pair,vectors,set etc in unorder map,whereas they can be used in map
+  //rest everything same as map
+---------------------------
+MULTIMAP-
+multimap<int,string>m;
+//same as map(t.c etc)
+//it has orderd keys
+//but we can have duplicate keys unlike in the map
+ --------------------------------
+SET(ORDERED)-
+set<string>s;
+ //it is map without values
+ //ordered
+ //insertion and access each has logn tc
+----------------------
+UNORDERED SET -
+//all same as unordered map(t.c etc)
+unordered_set<string>s;
+------------------------
+MULTISET-
+ //same as multimap
+//can have duplicates
+//t.c same as of ordered map
+//important
+//ordered
+---------------------------------
+IMP-
+multiset<string>s;
+ 
+ s.insert("abc");
+ s.insert("abc");
+ s.insert("bef");
+ auto k=s.find("abc");
+ s.erase(k);//erases string on kth poition i.e "abc"
+ s.erase("abc");//erases all strings containing abc
+-------------------------------------------------
+STACKS -
+*IT IS A LIFO DATA STRUCTURE-LAST IN FIRST OUT.
+stack<int>s;//can be any complex D.S also like vector,set etc.
+  s.push(1);
+    s.push(2);
+    s.push(3);
+    s.push(4);
+    s.push(5);//top most element therefore it will be printed first and popped first
+    while(!s.empty())
+    {
+        cout<<s.top()<<endl;
+        s.pop();
+    }
+--------------------------------------------
+QUEUES-
+FIFO- FIRST IN FIRST OUT
+queue<int>q;
+    q.push(1);//will be printed first
+    q.push(2);
+    q.push(3);
+    q.push(4);
+    q.push(5);
+    while(!q.empty())
+    {
+        cout<<q.front()<<endl;
+        q.pop();
+    }
+-----------------------------------
+#include<bits/stdc++.h>
+
+using namespace std;
+
+
+
+int main() {
+
+    //balanced parenthesis-
+   string s;
+   cin>>s;
+   int c=0,k=0;
+   stack<int>st;
+   for(int j=0;j<s.length();j++)
+   {
+       int h=s[j];
+       if(h==40 || h==123 || h==91)
+       {
+           st.push(h);
+       }
+       else
+       {
+           if(st.empty())
+           {
+               cout<<"NO"<<endl;
+               c++;
+               break;
+           }
+           if(st.top()+1==h || st.top()+2==h)
+           {
+               st.pop();
+
+           }
+           else
+           {
+               cout<<"NO"<<endl;
+               k++;
+               break;
+           }
+       }
+   }
+   if(c!=1 && k!=1)
+   {
+       if(st.empty())
+       {
+           cout<<"YES";
+       }
+       else
+       {
+           cout<<"NO";
+       }
+   }
+
+    return 0;
+}
+--------------------------------------------------------
+//INTRO SORT-
+for array-
+sort(arr,arr+n);
+
+for vector-
+sort(v.begin(),v.end()); 
+if u just wanna sort from 3rd to last -
+sort(arr+3,arr+n);
+or from 2 to second last-
+sort(arr+2,n-2);
+---------------------------------------------------
+*ARRAY OR VECTOR MUST BE SORTED TO USE U.B AND L.B
+#UPPER BOUND-FINDS THE ELEMENT GREATER THAN THE ELEMENT U
+WANTED TO FIND.
+#LOWER BOUND-FINDS THE ELEMENT U WANNA FIND,IF THE ELEMENT IS
+NOT PRESENT IN ARRAY THEN IT RETURNS THE ELEMENT GREATER THAN
+THE ELEMENT U WANTED TO FIND.
+
+*BOTH THE FUNTIONS RETURN LOCATIONS,POINTERS IN THE CASE OF
+ARRAY AND ITERATOR IN THE CASE OF VECTOR.
+
+*SYNTAX-
+int *ptr=lower_bound(a,a+n,k);//T.C=lon(n)
+cout<<*ptr;
+auto it=lower_bound(v.begin(),v.end(),k);
+
+FOR SETS AND MAPS-
+if we do -
+auto it=lower_bound(set.begin(),set.end(),k);
+//this will throw error TLE as it has TC=o(n);
+but if we do-
+auto it=s.lower_bound(k);//TC=log(n);
+//it will work
+---------------------------------
+#INBUILT ALGORITHMS IN STL-
+ //INBUILT ALGORITHMS IN STL
+    //all have T.C=o(n) except in the case of map ,sets where TC=log(n)
+    //all these algo are applicable for strings,array,vectors,maps,sets.
+   vector<int>v={3,2,5,2,6,8};
+   auto min=min_element(v.begin(),v.end());
+   cout<<*min<<endl;
+   auto max=max_element(v.begin(),v.end());
+cout<<*max<<endl;
+int sum= accumulate(v.begin(),v.end(),0);//needed to provide initial sum i.e 0 here as it returns 0+sum
+cout<<sum<<endl;
+int cnt=count(v.begin(),v.end(),2);
+cout<<cnt<<endl;
+reverse(v.begin(),v.end());
+for(auto it:v)
+{
+    cout<<it<<" ";
+}
+auto loc=find(v.begin(),v.end(),5);
+cout<<*loc<<endl;
+------------------------------------------
+ int n;
+        cin>>n;
+       
+        int i,arr[n];
+         set<int>s1,s2;
+         multiset<int>s3;
+        for(i=0;i<n;i++)
+        {
+            cin>>arr[i];
+            s1.insert(arr[i]);
+            s3.insert(arr[i]);
+           
+      
+            
+        }
+        int c=0,k=0;
+        
+       for(auto &it:s3)
+       {
+           int g=it;
+           if(s3.count(g)==1)
+           {
+               c++;
+           }
+           else if(s3.count(g)>2)
+           {
+               k++;
+               break;
+           }
+           else
+           {
+               s2.insert(g);
+ 
+           }
+       }
+       if(c==n)
+       {
+           sort(arr,arr+n);
+           for(i=n-1;i>=0;i--)
+           {
+               cout<<arr[i]<<" ";
+           }
+           cout<<endl;
+       }
+       else if(k>0)
+       {
+           cout<<-1<<endl;
+       }
+       else 
+       {
+         auto l=--(s2.end());
+         auto le=--(s1.end());
+         vector<int>v,v1;
+         for(auto &it:s2)
+         {
+             v.push_back(it);
+             cout<<it<<" ";
+         }
+         cout<<*le<<" ";
+         for(auto &it:s1)
+         {
+             int x=it;
+             if(x>(*l) && x!=(*le))
+             {
+                 cout<<it<<" ";
+             }
+         }
+         for(i=v.size()-1;i>=0;i--)
+         {
+             cout<<v[i]<<" ";
+         }
+         auto f=(s2.begin());
+         
+         for(auto &it:s1)
+         {
+             int j=it;
+             if(j<(*f))
+             {
+                 v1.push_back(j);
+             }
+         }
+         if(v1.size()!=0)
+         {
+             for(i=v1.size()-1;i>=0;i--)
+             {
+                 cout<<v1[i]<<" ";
+             }
+         }
+         cout<<endl;
+       }
